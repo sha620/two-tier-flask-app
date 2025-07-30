@@ -26,7 +26,7 @@ services:
     image: trainwithshubham/two-tier-flask-app:latest
     container_name: flask-app
     ports:
-      - "5000:5000"
+      - "5001:5000"
     environment:
       MYSQL_HOST: mysql
       MYSQL_USER: root
