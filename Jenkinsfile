@@ -33,7 +33,7 @@ pipeline{
         }
         stage("code deploy"){
             steps{
-                sh "docker compose up -d"
+                sh "docker compose -d --build app:la"
             }
             
         }
