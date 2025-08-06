@@ -25,15 +25,15 @@ pipeline{
                 usernameVariable:"dockerhubuser"
                 )]){
                 sh "docker login -u ${env.dockerhubuser} -p ${env.dockerhubpass}"
-                sh "docker image tag app:la ${env.dockerhubuser}/app.la"
-                sh "docker push ${env.dockerhubuser}/app.la"
+                sh "docker image tag app:la ${env.dockerhubuser}/app:la"
+                sh "docker push ${env.dockerhubuser}/app:la"
                 }
 
                 }
         }
         stage("code deploy"){
             steps{
-                sh "docker compose -d --build app.la"
+                sh "docker compose -d --build app:la"
             }
             
         }
