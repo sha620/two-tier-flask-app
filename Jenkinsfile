@@ -1,5 +1,5 @@
 pipeline{
-    agent any;
+    agent { label "test"};
     stages{
         stage("code clone"){
             steps{
@@ -33,7 +33,7 @@ pipeline{
         }
         stage("code deploy"){
             steps{
-                sh "docker compose -d --build appl"
+                sh "docker compose up -d --build flask"
             }
             
         }
