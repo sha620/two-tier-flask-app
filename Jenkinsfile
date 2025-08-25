@@ -1,37 +1,38 @@
 pipeline{
     agent any;
     stages{
-        stage("code clone"){
-            steps{
-               git url:"https://github.com/sha620/two-tier-flask-app.git",branch:"master" 
-            }
+        stage("clone"){
+          steps{
+              git url: "https://github.com/sha620/two-tier-flask-app.git", branch: "master"
+          }  
         }
-        stage("code bild"){
+        stage("build"){
             steps{
-                sh "docker build -t app:la ."
+                sh "docker build -t flask:ll ."
             }
+            
         }
-        stage("code test"){
+        stage("test"){
             steps{
                 echo "test"
             }
             
         }
-        stage("push to the docker hub"){
+        stage("push"){
             steps{
                 withCredentials([usernamePassword(
-                credentialsId:"Dockerhubcred",
-                passwordVariable:"dockerhubpass",
-                usernameVariable:"dockerhubuser"
+                credentialsId:"new",
+                usernameVariable:"user",
+                passwordVariable:"pass"
                 )]){
-                sh "docker login -u ${env.dockerhubuser} -p ${env.dockerhubpass}"
-                sh "docker image tag app:la ${env.dockerhubuser}/app:la"
-                sh "docker push ${env.dockerhubuser}/app:la"
+                    sh "docker login -u ${env.user} -p ${env.pass}"
+                    sh "docker image tag flask:ll ${env.user}/flask:ll"
+                    sh "docker push ${env.user}/flask:ll"
                 }
-
-                }
+            }
+            
         }
-        stage("code deploy"){
+        stage("deploy"){
             steps{
                 sh "docker compose up -d"
             }
