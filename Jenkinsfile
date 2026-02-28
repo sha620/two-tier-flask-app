@@ -1,6 +1,6 @@
 pipeline{
     agent any;
-    stages{
+    stages(){
         stage(clone){
             steps{
                 git url: "https://github.com/sha620/two-tier-flask-app.git",branch: "master"
@@ -18,16 +18,15 @@ pipeline{
         }
         stage(push){
             steps{
-              withCredentials([usernamePassword(
-                  credentialsId: "PPP",
-                  usernameVariable: "user",
-                  passwordVariable: "pass"
-                  
-                  )]) {
-                      sh "docker login -u ${env.user} -p ${env.pass}"
-                      sh "docker image tag two:ll ${env.user}/two:ll"
-                      sh "docker push ${env.user}/two:ll"
-                  }
+                withCredentials([usernamePassword(
+                    credentialsId: "shakti",
+                    usernameVariable: "user",
+                    passwordVariable: "pass"
+                    )]){
+                        sh "docker login -u ${env.user} -p ${env.pass}"
+                        sh "docker image tag two:ll ${env.user}/two:ll"
+                        sh "docker push ${env.user}/two:ll"
+                    }
             }
         }
         stage(deploy){
